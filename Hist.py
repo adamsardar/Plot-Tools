@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-# Hist.py -f inputdata as colon seperated file -o Outputpath(with file extension) -t "Hist title" -x "xlabel" -y "ylabel"
+#Copyright 2012 Gough Group, University of Bristol.
+#AUTHOR: Adam Sardar (adam.sardar@bris.ac.uk)
 
 import numpy as np
 import pylab as pl
@@ -9,8 +10,6 @@ import argparse
 import math
 
 def main():
-
-	#(binsize,colour,title,x_lab,y_lab,delim,label,column) = (75,'#7D7D7D','Hisogram Of Data','Value','Frequency',':','data',1)
 
 	parser = argparse.ArgumentParser(description='Produce histogram plots from input data using Matplot lib. Install SAGE math so that you can access the numpy and pylab modules easily.')
 		
@@ -23,7 +22,7 @@ def main():
 	parser.add_argument('--xlab', '-x', metavar='X_LABEL', required=False, dest='x_lab', type=str, default='Value', help='Label for the x-axis')
 	
 	parser.add_argument('--ylab', '-y', metavar='Y_LABEL', required=False, dest='y_lab', default='Frequency', type=str, help='Label for the y-axis')
-	parser.add_argument('--delim', '-d', metavar='FILE_DELIMITER', required=False, dest='delim', type=str, help='Delimiter carachter in input file')
+	parser.add_argument('--delim', '-d', metavar='FILE_DELIMITER', required=False, dest='delim', default=':', type=str, help='Delimiter carachter in input file')
 	parser.add_argument('--label', '-l', metavar='DATA_LABEL', required=False, dest='label', type=str, default='data', help='Label data key')
 	
 	parser.add_argument('--column', '-u', metavar='DATA_COLUMN', required=False, dest='column', type=int, default=1, help='Column to use of data file')
@@ -32,7 +31,7 @@ def main():
 
 	args = parser.parse_args()
 	
-	RawData = np.recfromcsv(args.InputFile,delimiter=args.delim)
+	RawData = np.recfromcsv(args.InputFile,args.delim)
 
 	if(args.log):
 		x = [math.log(tuple[args.column]) for tuple in RawData]
