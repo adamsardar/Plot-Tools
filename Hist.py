@@ -31,7 +31,7 @@ def main():
 
 	args = parser.parse_args()
 	
-	RawData = np.recfromcsv(args.InputFile,args.delim)
+	RawData = np.recfromtxt(args.InputFile,delimiter=args.delim)
 
 	if(args.log):
 		x = [math.log(tuple[args.column]) for tuple in RawData]
