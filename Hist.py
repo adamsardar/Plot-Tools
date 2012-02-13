@@ -32,11 +32,15 @@ def main():
 	args = parser.parse_args()
 	
 	RawData = np.recfromtxt(args.InputFile,delimiter=args.delim)
-
-	if(args.log):
-		x = [math.log(tuple[args.column]) for tuple in RawData]
+	
+	if(len(RawData.shape) == 1):
+		x = [tuple for tuple in RawData]
 	else:
 		x = [tuple[args.column] for tuple in RawData]
+		
+		
+	if(args.log):
+		x = [math.log(item) for item in x]	
 		
 	pl.hist(x, bins=args.binsize,facecolor=args.colour,label=args.label)
 	pl.xlabel(args.x_lab) ; pl.ylabel(args.y_lab) 
