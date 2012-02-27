@@ -40,7 +40,7 @@ def main():
 		
 		
 	if(args.log):
-		x = [math.log(item) for item in x]	
+		x = [math.log(item) for item in x]
 		
 	pl.hist(x, bins=args.binsize,facecolor=args.colour,label=args.label)
 	pl.xlabel(args.x_lab) ; pl.ylabel(args.y_lab) 
