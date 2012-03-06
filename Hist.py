@@ -30,14 +30,12 @@ def main():
 	parser.add_argument('--log', required=False, dest='log', action='store_true', help='Log (natural base) transform the input data')
 
 	args = parser.parse_args()
-	
-	RawData = np.recfromtxt(args.InputFile,delimiter=args.delim)
-	
-	if(len(RawData.shape) == 1):
-		x = [tuple for tuple in RawData]
-	else:
-		x = [tuple[args.column] for tuple in RawData]
-		
+
+	x=[]
+	#x will be out data array
+	for line in args.InputFile:
+		RawData = line.split(args.delim)
+		x.append(float(RawData[args.column]))
 		
 	if(args.log):
 		x = [math.log(item) for item in x]
