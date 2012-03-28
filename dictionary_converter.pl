@@ -93,11 +93,14 @@ unless($invert){
 		my ($value,$key) = split(/$delim/,$line);
 		die "No value found for $key\n" if($value ~~ undef);
 		$dictionary_hash->{$key}=$value;
+		
 	}
 
 }
 
 close DICTIONARY;
+
+print STDERR "dictionary size = ".scalar(keys(%$dictionary_hash))."\n";
 
 open FILE, "<$file_to_translate" or die $!.$?;
 
