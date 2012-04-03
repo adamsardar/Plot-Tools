@@ -26,32 +26,55 @@ def main():
 	parser.add_argument('--label', '-l', metavar='DATA_LABEL', required=False, dest='label', type=str, default='data', help='Label data key')
 	
 	parser.add_argument('--column', '-u', metavar='DATA_COLUMN', required=False, dest='column', type=int, default=1, help='Column to use of data file')
-	parser.add_argument('--vline', metavar='VERTICAL_LINE', required=False, dest='vline', type=float, help='Adds a vertical line to plot at point on the x-axis')
+	parser.add_argument('--vline', metavar='VERTICAL_LINE', required=False, default=None, dest='vline', type=float, help='Adds a vertical line to plot at point on the x-axis')
+
 	parser.add_argument('--log', required=False, dest='log', action='store_true', help='Log (natural base) transform the input data')
+	parser.add_argument('--exp', required=False, dest='exp', action='store_true', help='Exponential (e^x) transform the input data')
+
+	parser.add_argument('--xmax', metavar='MAXIMUM X VALUE', required=False, default=None, dest='xmax', type=float, help='The largest x value to include in the histogram. Note, you must also specify xmin')
+	parser.add_argument('--xmin', metavar='MINIMUM X VALUE', required=False, default=None, dest='xmin', type=float, help='The smallest x value to include in the histogram. Note, you must also specify xmax')
 
 	args = parser.parse_args()
 
 	x=[]
 	#x will be out data array
 	for line in args.InputFile:
-		RawData = line.split(args.delim)
+		RawData = line.split(args.delim)		
+		if len(RawData)-1 < args.column:
+			print >> sys.stderr, "You have specified a data column number greater than the number of columns in the input file. Are you sure that the seperator carachter is set aprropriately?"
+			sys.exit()	
+		try:
+			float(RawData[args.column])
+		except ValueError:
+			print >> sys.stderr, "Issues with your input file %s is not coercible into a float" % RawData[args.column].rstrip('\r\n')
+			sys.exit()
+		if args.log and float(RawData[args.column]) == 0:
+			print >> sys.stderr, "Data value of 0 found. This is not allowed if you wish to log transform the data"
+			sys.exit()	
 		x.append(float(RawData[args.column]))
 		
 	if(args.log):
 		x = [math.log(item) for item in x]
 		
-	pl.hist(x, bins=args.binsize,facecolor=args.colour,label=args.label)
+	if(args.exp):
+		x = [math.exp(item) for item in x]
+		
+	if args.xmax is not None and args.xmin is not None:
+		pl.hist(x, bins=args.binsize, range=(args.xmin,args.xmax),facecolor=args.colour,label=args.label)
+	else:
+		pl.hist(x, bins=args.binsize,facecolor=args.colour,label=args.label)
+		#If wither args.xmax or xmin are not defined
+		
+	
 	pl.xlabel(args.x_lab) ; pl.ylabel(args.y_lab) 
 	pl.legend(loc='upper left')
 	pl.title(args.title)
-	# make a histogram
-	
-	try:
-		args.vline
+			# make a histogram
+
+	if args.vline is not None:
 		pl.axvline(linewidth=2, color='r',x=args.vline)
-	except NameError:
-		args.vline = 'none'
 		
+	
 	# save the image to hardcopy
 	pl.savefig(args.Output)
 
