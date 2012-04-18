@@ -3,6 +3,13 @@
 #Copyright 2012 Gough Group, University of Bristol.
 #AUTHOR: Adam Sardar (adam.sardar@bris.ac.uk)
 
+
+
+
+# Force matplotlib to not use any Xwindows backend.
+import matplotlib
+matplotlib.use('Agg')
+
 import numpy as np
 import pylab as pl
 import sys
@@ -40,6 +47,7 @@ def main():
 	#x will be out data array
 	for line in args.InputFile:
 		RawData = line.split(args.delim)		
+		
 		if len(RawData)-1 < args.column:
 			print >> sys.stderr, "You have specified a data column number greater than the number of columns in the input file. Are you sure that the seperator carachter is set aprropriately?"
 			sys.exit()	
@@ -52,7 +60,8 @@ def main():
 			print >> sys.stderr, "Data value of 0 found. This is not allowed if you wish to log transform the data"
 			sys.exit()	
 		x.append(float(RawData[args.column]))
-		
+
+	
 	if(args.log):
 		x = [math.log(item) for item in x]
 		
