@@ -46,9 +46,11 @@ def main():
 	x=[]
 	#x will be out data array
 	for line in args.InputFile:
-		RawData = line.split(args.delim)		
+		
+		RawData = line.split(eval('"'+args.delim+'"'))	
 		
 		if len(RawData)-1 < args.column:
+			print "Delimiter is: "+args.delim
 			print >> sys.stderr, "You have specified a data column number greater than the number of columns in the input file. Are you sure that the seperator carachter is set aprropriately?"
 			sys.exit()	
 		try:
