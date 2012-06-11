@@ -6,7 +6,7 @@ dictionary_converterI<.pl>
 
 =head1 USAGE
 
-dictionary_converter.pl [options -v,-d,-h] <ARGS> -t <delimiter sep dictionary file> -f <file to translate> (*opt -delim <delimter>)
+dictionary_converter.pl [options -v,-d,-h] <ARGS> -t <delimiter sep dictionary file> -f <file to translate 'from to'> (*opt -delim <delimter>) (-i --invert command line flag to invert the dictionary file, 'from to' becomes 'to from')
 
 =head1 SYNOPSIS
 
