@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 #Copyright 2012 Gough Group, University of Bristol.
 #AUTHOR: Adam Sardar (adam.sardar@bris.ac.uk)
