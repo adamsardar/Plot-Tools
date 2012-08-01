@@ -4,8 +4,6 @@
 #AUTHOR: Adam Sardar (adam.sardar@bris.ac.uk)
 
 
-
-
 # Force matplotlib to not use any Xwindows backend.
 import matplotlib
 matplotlib.use('Agg')
@@ -31,7 +29,10 @@ def main():
 	parser.add_argument('--ylab', '-y', metavar='Y_LABEL', required=False, dest='y_lab', default='Frequency', type=str, help='Label for the y-axis')
 	parser.add_argument('--delim', '-d', metavar='FILE_DELIMITER', required=False, dest='delim', default=':', type=str, help='Delimiter carachter in input file (defualt is :)')
 	parser.add_argument('--label', '-l', metavar='DATA_LABEL', required=False, dest='label', type=str, default='data', help='Label data key')
-	
+
+	parser.add_argument('--ylimmax', metavar='Y_LIM_MAX', required=False, dest='ylimmax', type=float, help='A maximum value to set the plot y scale to')
+	parser.add_argument('--xlimmax', metavar='X_LIM_MAX', required=False, dest='xlimmax', type=float, help='A maximum value to set the plot x scale to')
+
 	parser.add_argument('--column', '-u', metavar='DATA_COLUMN', required=False, dest='column', type=int, default=1, help='Column to use of data file')
 	parser.add_argument('--vline', metavar='VERTICAL_LINE', required=False, default=None, dest='vline', type=float, help='Adds a vertical line to plot at point on the x-axis')
 
@@ -85,6 +86,11 @@ def main():
 	if args.vline is not None:
 		pl.axvline(linewidth=2, color='r',x=args.vline)
 		
+	if args.ylimmax is not None:
+		pl.ylim((0,args.ylimmax))	
+
+	if args.xlimmax is not None:
+		pl.xlim((0,args.xlimmax))	
 	
 	# save the image to hardcopy
 	pl.savefig(args.Output)
