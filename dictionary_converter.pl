@@ -1,9 +1,6 @@
-#!/usr/bin/env perl
-
-use Modern::Perl;
+#! /usr/bin/env perl
 
 =head1 NAME
-
 dictionary_converterI<.pl>
 
 =head1 USAGE
@@ -36,6 +33,7 @@ B<Getopt::Long> Used to parse command line options.
 B<Pod::Usage> Used for usage and help output.
 B<Data::Dumper> Used for debug output.
 =cut
+use Modern::Perl;
 use Getopt::Long;                     #Deal with command line options
 use Pod::Usage;                       #Print a usage man page from the POD comments after __END__
 use Data::Dumper;                     #Allow easy print dumps of datastructures for debugging
@@ -88,12 +86,13 @@ unless($invert){
 		$dictionary_hash->{$key}=$value;
 		
 	}
-
 }
 
 close DICTIONARY;
 
 print STDERR "dictionary size = ".scalar(keys(%$dictionary_hash))."\n";
+
+print STDERR join("\t",keys(%$dictionary_hash)) if $verbose;
 
 open FILE, "<$file_to_translate" or die $!.$?;
 
@@ -105,7 +104,7 @@ while (my $line = <FILE>){
 		#print $word2translate."\n";
 		my $translation = $dictionary_hash->{$word2translate};
 		#print $translation."\n";
-		$line =~ s/(\W+)($word2translate)(\W+)/$1$translation$3/g;
+		$line =~ s/([\s^]+)($word2translate)([\s$+])/$1$translation$3/g;
 	}
 
 	print $line."\n";
