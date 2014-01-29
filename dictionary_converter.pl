@@ -22,10 +22,6 @@ Copyright 2011 Gough Group, University of Bristol.
 
 =cut
 
-# Add Local Library to LibPath
-#----------------------------------------------------------------------------------------------------------------
-use lib "$ENV{HOME}/bin/perl-libs-custom";
-
 # CPAN Includes
 #----------------------------------------------------------------------------------------------------------------
 =head1 DEPENDANCY
@@ -37,7 +33,6 @@ use Modern::Perl;
 use Getopt::Long;                     #Deal with command line options
 use Pod::Usage;                       #Print a usage man page from the POD comments after __END__
 use Data::Dumper;                     #Allow easy print dumps of datastructures for debugging
-use DBI;
 
 # Command Line Options
 #----------------------------------------------------------------------------------------------------------------
@@ -104,7 +99,7 @@ while (my $line = <FILE>){
 		#print $word2translate."\n";
 		my $translation = $dictionary_hash->{$word2translate};
 		#print $translation."\n";
-		$line =~ s/([\s^]+)($word2translate)([\s$+])/$1$translation$3/g;
+		$line =~ s/\b$word2translate\b/$translation/g;
 	}
 
 	print $line."\n";
