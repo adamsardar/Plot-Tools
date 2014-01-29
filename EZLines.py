@@ -27,7 +27,7 @@ def main():
 	parser.add_argument("--legend",  dest="legend",  action='append', help="add legend to plot")
 	parser.add_argument("--legend_placement",  dest="legplace", type=int,help="specify legend placement as a numeric code (see matplot lib webpages for details)")
 	parser.add_argument("-c", "--colours",  dest="colours", action='append', help="colours to be used for lines (each individual value is appenended to a list) (must be same size or larger than xfields) (default is black, red, blue, green, yellow)")
-		
+
 	#grab options
 	args = parser.parse_args()
 	
